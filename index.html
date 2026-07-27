@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yilma Restaurant — Culinary Craft, Refined.</title>
+<meta name="description" content="Yilma Restaurant — highland heritage and modern culinary craft, refined into an intimate fine-dining experience." />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: '#FAF7F2',
+          creamalt: '#F2EBDD',
+          charcoal: '#1D1D1F',
+          charcoalsoft: '#5B5B5E',
+          gold: '#C5A059',
+          golddeep: '#9C7A3F',
+          goldline: '#E3D3AC',
+        },
+        fontFamily: {
+          display: ['"Fraunces"', 'serif'],
+          sans: ['"Inter"', 'sans-serif'],
+        },
+        maxWidth: { measure: '38rem' },
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+  body { font-family: 'Inter', sans-serif; background-color: #FAF7F2; }
+  .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+
+  section[id] { scroll-margin-top: 96px; }
+
+  /* Brush underline */
+  .brush-path {
+    stroke-dasharray: 620;
+    stroke-dashoffset: 620;
+    animation: draw 1.4s 0.5s cubic-bezier(0.65,0,0.35,1) forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid #9C7A3F;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .grain::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 0; bottom: -4px; width: 100%; height: 1px;
+    background: #9C7A3F; transform: scaleX(0); transform-origin: right; transition: transform 0.35s ease;
+  }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  #mobile-panel { transition: max-height 0.4s ease, opacity 0.3s ease; }
+</style>
+</head>
+
+<body class="bg-cream text-charcoal antialiased">
+
+<!-- ============ HEADER ============ -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-transparent">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
+
+    <a href="#top" class="flex items-center gap-3 group" aria-label="Yilma Restaurant home">
+      <span class="w-9 h-9 rounded-full border border-gold flex items-center justify-center">
+        <span class="font-display text-gold text-sm">Y</span>
+      </span>
+      <span class="flex flex-col leading-none">
+        <span class="font-display text-lg tracking-[0.08em] text-charcoal">YILMA</span>
+        <span class="text-[9px] tracking-[0.35em] text-charcoalsoft">RESTAURANT</span>
+      </span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-10 text-sm font-medium text-charcoal">
+      <a href="#story" class="nav-link">Story</a>
+      <a href="#menu" class="nav-link">Menu</a>
+      <a href="#private-dining" class="nav-link">Private Dining</a>
+      <a href="#location" class="nav-link">Location</a>
+    </nav>
+
+    <div class="hidden lg:block">
+      <a href="#reserve" class="inline-flex items-center rounded-full bg-gold hover:bg-golddeep px-5 py-2.5 text-sm font-semibold text-charcoal transition-colors duration-300">
+        Reserve a Table
+      </a>
+    </div>
+
+    <button id="menu-toggle" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-panel">
+      <span class="block w-6 h-px bg-charcoal transition-transform duration-300" id="bar1"></span>
+      <span class="block w-6 h-px bg-charcoal transition-opacity duration-300" id="bar2"></span>
+      <span class="block w-6 h-px bg-charcoal transition-transform duration-300" id="bar3"></span>
+    </button>
+  </div>
+
+  <div id="mobile-panel" class="lg:hidden overflow-hidden max-h-0 opacity-0 bg-cream/95 backdrop-blur-xl border-t border-goldline/60">
+    <nav class="flex flex-col px-6 py-6 gap-5 text-base font-medium">
+      <a href="#story" class="menu-close">Story</a>
+      <a href="#menu" class="menu-close">Menu</a>
+      <a href="#private-dining" class="menu-close">Private Dining</a>
+      <a href="#location" class="menu-close">Location</a>
+      <a href="#reserve" class="menu-close inline-flex justify-center rounded-full bg-gold px-5 py-3 font-semibold text-charcoal mt-2">Reserve a Table</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative pt-40 pb-24 px-6 overflow-hidden">
+  <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[70rem] h-[70rem] rounded-full bg-gold/10 blur-3xl"></div>
+
+  <div class="relative max-w-5xl mx-auto text-center">
+    <p class="text-xs tracking-[0.35em] text-golddeep font-semibold uppercase mb-6 reveal">Yilma Restaurant — Est. 2014</p>
+
+    <h1 class="font-display font-medium text-charcoal text-[15vw] leading-[0.98] sm:text-7xl md:text-8xl lg:text-[7rem] tracking-tight reveal">
+      Culinary Craft,<br />
+      <span class="relative inline-block">
+        Refined.
+        <svg class="absolute left-0 -bottom-3 sm:-bottom-4 w-full h-6" viewBox="0 0 300 24" fill="none" preserveAspectRatio="none" aria-hidden="true">
+          <path class="brush-path" d="M4 16C60 6 140 4 180 12C210 18 250 8 296 10" stroke="#C5A059" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </h1>
+
+    <p class="max-w-measure mx-auto mt-10 text-lg text-charcoalsoft leading-relaxed reveal">
+      Highland coffee, heirloom teff, and generations of spice craft — reinterpreted through
+      modern technique, served in an intimate room built for slow, honest meals.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mt-10 reveal">
+      <a href="#reserve" class="w-full sm:w-auto text-center rounded-full bg-gold hover:bg-golddeep px-8 py-3.5 text-sm font-semibold text-charcoal transition-colors duration-300">
+        Book a Table
+      </a>
+      <a href="#menu" class="text-sm font-semibold text-charcoal group inline-flex items-center gap-1">
+        Explore Menu
+        <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto mt-20 reveal">
+    <div class="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[16/9] grain group">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop" 
+           alt="Signature Coffee-Rubbed Ribeye" 
+           class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent"></div>
+      <div class="absolute left-6 bottom-6 sm:left-10 sm:bottom-10 text-cream z-10">
+        <p class="text-[10px] tracking-[0.3em] uppercase text-gold/90 mb-1">Signature Course</p>
+        <p class="font-display text-xl sm:text-2xl">Coffee-Rubbed Ribeye, Dry-Aged 45 Days</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHILOSOPHY ============ -->
+<section id="story" class="bg-creamalt py-28 px-6">
+  <div class="max-w-5xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-7 text-center lg:text-left">
+      <p class="text-xs tracking-[0.35em] text-golddeep font-semibold uppercase mb-6 reveal">The Philosophy</p>
+      <h2 class="font-display text-4xl sm:text-5xl text-charcoal leading-tight reveal">
+        Heritage, carried forward by craft.
+      </h2>
+      <p class="mt-8 text-charcoalsoft text-lg leading-relaxed reveal">
+        Yilma began with a single conviction: that the ingredients of the highlands — bright,
+        sun-ripened, grown by families we still call by name — deserve technique as considered
+        as their origin. Every plate is built the same way our grandmothers built a meal: slowly,
+        with attention, and without shortcuts. We've simply given it a modern table to sit at.
+      </p>
+      <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-10 reveal">
+        <span class="text-xs tracking-wide uppercase text-golddeep border border-goldline rounded-full px-4 py-2">Heirloom Grain</span>
+        <span class="text-xs tracking-wide uppercase text-golddeep border border-goldline rounded-full px-4 py-2">Slow Fire</span>
+        <span class="text-xs tracking-wide uppercase text-golddeep border border-goldline rounded-full px-4 py-2">Highland Spice</span>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 reveal">
+      <div class="relative rounded-2xl overflow-hidden shadow-lg aspect-[4/5] grain">
+        <img src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?q=80&w=800&auto=format&fit=crop" 
+             alt="Intimate Dining Ambience" 
+             class="w-full h-full object-cover object-center" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED DISHES ============ -->
+<section id="menu" class="bg-cream py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center max-w-measure mx-auto">
+      <p class="text-xs tracking-[0.35em] text-golddeep font-semibold uppercase mb-6 reveal">The Menu</p>
+      <h2 class="font-display text-4xl sm:text-5xl text-charcoal reveal">Flavors, elevated.</h2>
+      <p class="mt-6 text-charcoalsoft text-lg reveal">A rotating tasting of six courses that anchor the room — full menu presented tableside.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+
+      <!-- Card 1: Doro Wat -->
+      <div class="reveal group rounded-2xl border border-goldline/70 bg-white/40 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-500">
+        <div class="h-48 relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=800&auto=format&fit=crop" 
+               alt="Doro Wat Consommé" 
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="grain absolute inset-0"></div>
+        </div>
+        <div class="p-6">
+          <span class="text-[10px] tracking-[0.2em] uppercase text-golddeep bg-goldline/40 rounded-full px-2.5 py-1">Gluten-Free Adaptable</span>
+          <h3 class="font-display text-xl mt-4 text-charcoal">Doro Wat Consommé</h3>
+          <p class="text-sm text-charcoalsoft mt-2 leading-relaxed">Clarified berbere-spiced chicken broth, farm egg, injera crisp.</p>
+          <div class="flex items-center justify-between mt-5 pt-4 border-t border-goldline/50">
+            <span class="text-xs text-charcoalsoft">Starter</span>
+            <span class="font-semibold text-charcoal">$28</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Scallops -->
+      <div class="reveal group rounded-2xl border border-goldline/70 bg-white/40 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-500">
+        <div class="h-48 relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?q=80&w=800&auto=format&fit=crop" 
+               alt="Seared Scallops, Awaze Beurre Blanc" 
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="grain absolute inset-0"></div>
+        </div>
+        <div class="p-6">
+          <span class="text-[10px] tracking-[0.2em] uppercase text-golddeep bg-goldline/40 rounded-full px-2.5 py-1">Gluten-Free</span>
+          <h3 class="font-display text-xl mt-4 text-charcoal">Seared Scallops, Awaze Beurre Blanc</h3>
+          <p class="text-sm text-charcoalsoft mt-2 leading-relaxed">Dived scallops, chili-awaze butter, charred lime.</p>
+          <div class="flex items-center justify-between mt-5 pt-4 border-t border-goldline/50">
+            <span class="text-xs text-charcoalsoft">Starter</span>
+            <span class="font-semibold text-charcoal">$34</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Lamb Tibs -->
+      <div class="reveal group rounded-2xl border border-goldline/70 bg-white/40 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-500">
+        <div class="h-48 relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop" 
+               alt="Slow-Roasted Lamb Tibs" 
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="grain absolute inset-0"></div>
+        </div>
+        <div class="p-6">
+          <span class="text-[10px] tracking-[0.2em] uppercase text-golddeep bg-goldline/40 rounded-full px-2.5 py-1">Chef's Signature</span>
+          <h3 class="font-display text-xl mt-4 text-charcoal">Slow-Roasted Lamb Tibs</h3>
+          <p class="text-sm text-charcoalsoft mt-2 leading-relaxed">12-hour lamb shoulder, rosemary jus, roasted shallot.</p>
+          <div class="flex items-center justify-between mt-5 pt-4 border-t border-goldline/50">
+            <span class="text-xs text-charcoalsoft">Main</span>
+            <span class="font-semibold text-charcoal">$46</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Teff Risotto -->
+      <div class="reveal group rounded-2xl border border-goldline/70 bg-white/40 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-500">
+        <div class="h-48 relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?q=80&w=800&auto=format&fit=crop" 
+               alt="Heirloom Teff Risotto" 
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="grain absolute inset-0"></div>
+        </div>
+        <div class="p-6">
+          <span class="text-[10px] tracking-[0.2em] uppercase text-golddeep bg-goldline/40 rounded-full px-2.5 py-1">Vegetarian · GF</span>
+          <h3 class="font-display text-xl mt-4 text-charcoal">Heirloom Teff Risotto</h3>
+          <p class="text-sm text-charcoalsoft mt-2 leading-relaxed">Toasted teff, wild mushroom, aged gouda, black lime.</p>
+          <div class="flex items-center justify-between mt-5 pt-4 border-t border-goldline/50">
+            <span class="text-xs text-charcoalsoft">Main</span>
+            <span class="font-semibold text-charcoal">$26</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Coffee-Rubbed Ribeye -->
+      <div class="reveal group rounded-2xl border border-goldline/70 bg-white/40 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-500">
+        <div class="h-48 relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=800&auto=format&fit=crop" 
+               alt="Coffee-Rubbed Ribeye" 
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="grain absolute inset-0"></div>
+        </div>
+        <div class="p-6">
+          <span class="text-[10px] tracking-[0.2em] uppercase text-golddeep bg-goldline/40 rounded-full px-2.5 py-1">Dry-Aged 45 Days</span>
+          <h3 class="font-display text-xl mt-4 text-charcoal">Coffee-Rubbed Ribeye</h3>
+          <p class="text-sm text-charcoalsoft mt-2 leading-relaxed">Coffee-berbere crust, red wine jus, charred shallot.</p>
+          <div class="flex items-center justify-between mt-5 pt-4 border-t border-goldline/50">
+            <span class="text-xs text-charcoalsoft">Main</span>
+            <span class="font-semibold text-charcoal">$58</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Tej Panna Cotta -->
+      <div class="reveal group rounded-2xl border border-goldline/70 bg-white/40 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-500">
+        <div class="h-48 relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=800&auto=format&fit=crop" 
+               alt="Honey Tej Panna Cotta" 
+               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div class="grain absolute inset-0"></div>
+        </div>
+        <div class="p-6">
+          <span class="text-[10px] tracking-[0.2em] uppercase text-golddeep bg-goldline/40 rounded-full px-2.5 py-1">Vegetarian</span>
+          <h3 class="font-display text-xl mt-4 text-charcoal">Honey Tej Panna Cotta</h3>
+          <p class="text-sm text-charcoalsoft mt-2 leading-relaxed">Ethiopian honey wine, cardamom, toasted sesame brittle.</p>
+          <div class="flex items-center justify-between mt-5 pt-4 border-t border-goldline/50">
+            <span class="text-xs text-charcoalsoft">Dessert</span>
+            <span class="font-semibold text-charcoal">$16</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRIVATE DINING + RESERVATIONS ============ -->
+<section id="private-dining" class="bg-creamalt py-28 px-6">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+
+    <div class="reveal">
+      <p class="text-xs tracking-[0.35em] text-golddeep font-semibold uppercase mb-6">Private Dining & Events</p>
+      <h2 class="font-display text-4xl sm:text-5xl text-charcoal leading-tight">An address for the occasion.</h2>
+      <p class="mt-6 text-charcoalsoft text-lg leading-relaxed">
+        A private room for twelve, a chef's table for six, or the full house for something
+        larger — each gathering is built around a tasting menu composed for the occasion,
+        poured and paced by our team from first course to last.
+      </p>
+      
+      <div class="mt-8 rounded-2xl overflow-hidden aspect-[16/9] shadow-md grain">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop" 
+             alt="Private Dining Atmosphere" 
+             class="w-full h-full object-cover" />
+      </div>
+
+      <a href="mailto:events@yilmarestaurant.com" class="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-charcoal group">
+        Inquire About Private Dining
+        <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </a>
+    </div>
+
+    <div id="reserve" class="reveal bg-cream rounded-3xl border border-goldline/70 p-8 sm:p-10 shadow-sm">
+      <h3 class="font-display text-2xl text-charcoal mb-1">Request a Table</h3>
+      <p class="text-sm text-charcoalsoft mb-6">We'll confirm by email within one business day.</p>
+
+      <form id="reservation-form" class="space-y-5" novalidate>
+        <div>
+          <label for="res-name" class="block text-xs font-semibold tracking-wide uppercase text-charcoalsoft mb-1.5">Full Name</label>
+          <input id="res-name" name="name" type="text" required autocomplete="name"
+            class="w-full rounded-lg border border-goldline bg-white/70 px-4 py-3 text-sm text-charcoal placeholder-charcoalsoft/60 focus:border-gold focus:ring-0"
+            placeholder="Your name" />
+        </div>
+
+        <div>
+          <label for="res-email" class="block text-xs font-semibold tracking-wide uppercase text-charcoalsoft mb-1.5">Email</label>
+          <input id="res-email" name="email" type="email" required autocomplete="email"
+            class="w-full rounded-lg border border-goldline bg-white/70 px-4 py-3 text-sm text-charcoal placeholder-charcoalsoft/60 focus:border-gold focus:ring-0"
+            placeholder="you@example.com" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="res-date" class="block text-xs font-semibold tracking-wide uppercase text-charcoalsoft mb-1.5">Date</label>
+            <input id="res-date" name="date" type="date" required
+              class="w-full rounded-lg border border-goldline bg-white/70 px-4 py-3 text-sm text-charcoal focus:border-gold focus:ring-0" />
+          </div>
+          <div>
+            <label for="res-time" class="block text-xs font-semibold tracking-wide uppercase text-charcoalsoft mb-1.5">Time</label>
+            <select id="res-time" name="time" required
+              class="w-full rounded-lg border border-goldline bg-white/70 px-4 py-3 text-sm text-charcoal focus:border-gold focus:ring-0">
+              <option value="">Select</option>
+              <option>5:30 PM</option><option>6:00 PM</option><option>6:30 PM</option>
+              <option>7:00 PM</option><option>7:30 PM</option><option>8:00 PM</option>
+              <option>8:30 PM</option><option>9:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="res-guests" class="block text-xs font-semibold tracking-wide uppercase text-charcoalsoft mb-1.5">Guests</label>
+          <select id="res-guests" name="guests" required
+            class="w-full rounded-lg border border-goldline bg-white/70 px-4 py-3 text-sm text-charcoal focus:border-gold focus:ring-0">
+            <option value="">Select party size</option>
+            <option>1 Guest</option><option>2 Guests</option><option>3 Guests</option>
+            <option>4 Guests</option><option>5 Guests</option><option>6 Guests</option>
+            <option>7+ Guests (Private Dining)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="res-notes" class="block text-xs font-semibold tracking-wide uppercase text-charcoalsoft mb-1.5">Special Requests</label>
+          <textarea id="res-notes" name="notes" rows="3"
+            class="w-full rounded-lg border border-goldline bg-white/70 px-4 py-3 text-sm text-charcoal placeholder-charcoalsoft/60 focus:border-gold focus:ring-0"
+            placeholder="Allergies, celebrations, seating preferences…"></textarea>
+        </div>
+
+        <button type="submit" class="w-full rounded-full bg-gold hover:bg-golddeep px-6 py-3.5 text-sm font-semibold text-charcoal transition-colors duration-300">
+          Request Reservation
+        </button>
+
+        <p id="res-success" class="hidden text-sm text-golddeep font-medium text-center pt-1" role="status">
+          Thank you — your request has been sent. We'll be in touch shortly.
+        </p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ LOCATION & HOURS ============ -->
+<section id="location" class="bg-cream py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center max-w-measure mx-auto mb-16">
+      <p class="text-xs tracking-[0.35em] text-golddeep font-semibold uppercase mb-6 reveal">Location & Hours</p>
+      <h2 class="font-display text-4xl sm:text-5xl text-charcoal reveal">Find the room.</h2>
+    </div>
+
+    <div class="reveal grid lg:grid-cols-2 rounded-[2rem] overflow-hidden border border-goldline/70">
+
+      <div class="relative h-72 lg:h-auto bg-creamalt overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1000&auto=format&fit=crop" 
+             alt="Kazanchis Lane Location" 
+             class="w-full h-full object-cover filter brightness-90" />
+        <div class="absolute inset-0 bg-charcoal/30"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3">
+          <span class="w-12 h-12 rounded-full bg-gold flex items-center justify-center shadow-lg">
+            <span class="w-3 h-3 rounded-full bg-charcoal"></span>
+          </span>
+          <span class="text-xs tracking-wide uppercase text-white font-semibold bg-charcoal/80 px-4 py-1.5 rounded-full backdrop-blur-md">247 Kazanchis Lane, Addis Ababa</span>
+        </div>
+      </div>
+
+      <div class="bg-white/40 p-10 sm:p-12">
+        <h3 class="font-display text-2xl text-charcoal mb-6">Visit Us</h3>
+
+        <div class="space-y-1 mb-8">
+          <p class="text-charcoal font-medium">247 Kazanchis Lane</p>
+          <p class="text-charcoalsoft">Addis Ababa, Ethiopia</p>
+          <p class="text-charcoalsoft mt-2">+251 11 555 0192</p>
+        </div>
+
+        <div class="space-y-2 border-t border-goldline/60 pt-6">
+          <div class="flex justify-between text-sm">
+            <span class="text-charcoalsoft">Monday – Thursday</span>
+            <span class="text-charcoal font-medium">5:30 PM – 10:00 PM</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-charcoalsoft">Friday – Saturday</span>
+            <span class="text-charcoal font-medium">5:30 PM – 11:00 PM</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-charcoalsoft">Sunday</span>
+            <span class="text-charcoal font-medium">1:00 PM – 9:00 PM</span>
+          </div>
+        </div>
+
+        <p class="text-sm text-charcoalsoft leading-relaxed mt-8 pt-6 border-t border-goldline/60">
+          A dim, close room — brass light, low music, and tables set far enough apart for
+          a real conversation. Smart casual attire is welcome throughout the week.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-charcoal text-cream pt-20 pb-8 px-6">
+  <div class="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+
+    <div>
+      <a href="#top" class="flex items-center gap-3 mb-4">
+        <span class="w-9 h-9 rounded-full border border-gold flex items-center justify-center">
+          <span class="font-display text-gold text-sm">Y</span>
+        </span>
+        <span class="font-display text-lg tracking-[0.08em]">YILMA</span>
+      </a>
+      <p class="text-sm text-cream/60 leading-relaxed max-w-xs">Highland heritage, modern craft — an intimate table in the heart of Addis Ababa.</p>
+      <div class="flex items-center gap-4 mt-6">
+        <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:border-gold hover:text-gold transition-colors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:border-gold hover:text-gold transition-colors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" aria-label="X" class="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:border-gold hover:text-gold transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-xs tracking-[0.25em] uppercase text-gold mb-5">Explore</p>
+      <ul class="space-y-3 text-sm text-cream/70">
+        <li><a href="#story" class="hover:text-cream transition-colors">Story</a></li>
+        <li><a href="#menu" class="hover:text-cream transition-colors">Menu</a></li>
+        <li><a href="#private-dining" class="hover:text-cream transition-colors">Private Dining</a></li>
+        <li><a href="#location" class="hover:text-cream transition-colors">Location</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-xs tracking-[0.25em] uppercase text-gold mb-5">Visit</p>
+      <ul class="space-y-3 text-sm text-cream/70">
+        <li>247 Kazanchis Lane</li>
+        <li>Addis Ababa, Ethiopia</li>
+        <li>+251 11 555 0192</li>
+        <li><a href="#reserve" class="hover:text-cream transition-colors">Reserve a Table →</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-xs tracking-[0.25em] uppercase text-gold mb-5">Newsletter</p>
+      <p class="text-sm text-cream/60 mb-4">Seasonal menus and private events, occasionally.</p>
+      <form id="newsletter-form" class="flex items-center gap-2">
+        <label for="newsletter-email" class="sr-only">Email address</label>
+        <input id="newsletter-email" type="email" required placeholder="Email address"
+          class="flex-1 min-w-0 rounded-full bg-cream/10 border border-cream/20 px-4 py-2.5 text-sm text-cream placeholder-cream/40 focus:border-gold focus:ring-0" />
+        <button type="submit" aria-label="Subscribe" class="shrink-0 w-10 h-10 rounded-full bg-gold hover:bg-golddeep text-charcoal flex items-center justify-center transition-colors">
+          →
+        </button>
+      </form>
+      <p id="newsletter-success" class="hidden text-xs text-gold mt-3" role="status">Subscribed — welcome.</p>
+    </div>
+
+  </div>
+
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 mt-14 border-t border-cream/10">
+    <p class="text-xs text-cream/40">© 2026 Yilma Restaurant. All rights reserved.</p>
+    <div class="flex items-center gap-6 text-xs text-cream/40">
+      <a href="#" class="hover:text-cream/70 transition-colors">Privacy</a>
+      <a href="#" class="hover:text-cream/70 transition-colors">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll state
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    if (window.scrollY > 40) {
+      header.classList.add('bg-cream/80', 'backdrop-blur-xl', 'border-goldline/60', 'shadow-sm');
+    } else {
+      header.classList.remove('bg-cream/80', 'backdrop-blur-xl', 'border-goldline/60', 'shadow-sm');
+    }
+  };
+  document.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // Mobile menu toggle
+  const toggle = document.getElementById('menu-toggle');
+  const panel = document.getElementById('mobile-panel');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+  let menuOpen = false;
+
+  function setMenu(open) {
+    menuOpen = open;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      panel.style.opacity = '1';
+      bar1.style.transform = 'translateY(6.5px) rotate(45deg)';
+      bar3.style.transform = 'translateY(-6.5px) rotate(-45deg)';
+      bar2.style.opacity = '0';
+    } else {
+      panel.style.maxHeight = '0px';
+      panel.style.opacity = '0';
+      bar1.style.transform = 'none';
+      bar3.style.transform = 'none';
+      bar2.style.opacity = '1';
+    }
+  }
+  toggle.addEventListener('click', () => setMenu(!menuOpen));
+  document.querySelectorAll('.menu-close').forEach(el => el.addEventListener('click', () => setMenu(false)));
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Reservation form
+  const resForm = document.getElementById('reservation-form');
+  const resSuccess = document.getElementById('res-success');
+  resForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    resSuccess.classList.remove('hidden');
+    resForm.querySelectorAll('input, select, textarea, button[type=submit]').forEach(el => el.setAttribute('disabled', 'true'));
+  });
+
+  // Newsletter form
+  const newsForm = document.getElementById('newsletter-form');
+  const newsSuccess = document.getElementById('newsletter-success');
+  newsForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    newsSuccess.classList.remove('hidden');
+    newsForm.reset();
+  });
+</script>
+
+</body>
+</html>
+
